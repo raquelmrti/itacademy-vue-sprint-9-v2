@@ -1,7 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { RouterLink, RouterView } from "vue-router";
 import { onMounted, ref, computed, watch } from "vue";
 import { useUserStore } from "@/stores/userStore.js";
 const userStore = useUserStore();
@@ -15,12 +15,15 @@ onAuthStateChanged(auth, (user) => {
 </script>
 
 <template>
-  <main>
-    <section>
-      <div v-if="userStore.userData">
-        <span class="is-size-6"> Signed in as: {{ userStore.userData.email }} </span>
+  <div v-if="userStore.userData">
+    <span class="is-size-6">
+      Signed in as: {{ userStore.userData.email }} || {{ userStore.userData.uid }} ||
+      {{ userStore.userData.username }}
+    </span>
+    <div class="container px-5 pt-6 mt-6">
+      <div class="columns">
+        <RouterView />
       </div>
-      <RouterView />
-    </section>
-  </main>
+    </div>
+  </div>
 </template>

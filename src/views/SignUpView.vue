@@ -1,10 +1,14 @@
 <script setup>
-import SignUpForm from '@/components/forms/SignUpForm.vue'
+import SignUpForm from "@/components/forms/SignUpForm.vue";
 </script>
 
 <template>
-  <div class="container px-5 pt-6 mt-6">
-    <h1 class="title has-text-centered">Create an account</h1>
-    <SignUpForm />
+  <div class="column is-6 mx-auto">
+    <header class="mb-5">
+      <h1 class="title has-text-centered">Create an account</h1>
+    </header>
+    <main>
+      <SignUpForm />
+    </main>
   </div>
 </template>
