@@ -5,13 +5,12 @@ import router from "@/router/index";
 
 const userStore = useUserStore();
 
-const username = ref("Test name");
 const email = ref("testemail@gmail.com");
 const password = ref("testpassword1234");
 
 const handleSubmit = async () => {
-  const user = await userStore.registerUser(username.value, email.value, password.value);
-  // TODO: Handle register errors
+  const user = await userStore.signInUser(email.value, password.value);
+  // TODO: Handle login errors
   if (user) {
     // TODO: Change link
     router.push("/");
@@ -24,17 +23,6 @@ const handleSubmit = async () => {
   <div class="columns">
     <div class="column is-7 mx-auto">
       <form class="box p-6" @submit.prevent="handleSubmit">
-        <div class="field">
-          <label class="label">Username</label>
-          <input
-            class="input"
-            type="text"
-            placeholder="Enter your username"
-            v-model.trim="username"
-            required
-          />
-        </div>
-
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
@@ -64,14 +52,14 @@ const handleSubmit = async () => {
         <div class="field">
           <div class="control">
             <button type="submit" class="button is-primary is-fullwidth mt-5">
-              Sign up
+              Sign in
             </button>
           </div>
         </div>
 
         <span class="is-block has-text-centered is-size-7">
-          Already have an account?
-          <router-link :to="{ name: 'sign-in' }" class="is-link">Sign in</router-link>
+          Don't have an account?
+          <router-link :to="{ name: 'sign-up' }" class="is-link">Create one</router-link>
         </span>
       </form>
     </div>

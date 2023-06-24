@@ -21,23 +21,25 @@ export const useUserStore = defineStore('userStore', {
         email: user.email
       }
     },
-async registerUser(username, email, password) {
-  try {
-    const { user } = await createUserWithEmailAndPassword(auth, email, password)
-    await updateProfile(auth.currentUser, { displayName: username })
-    this.updateUserData(user)
-    return user
-  } catch (error) {
-    console.error('Error registering user:', error)
-    if (error.code === 'auth/email-already-in-use') {
-      alert('That email address is already in use!')
-    }
-  }
-},
+    async registerUser(username, email, password) {
+      try {
+        const { user } = await createUserWithEmailAndPassword(auth, email, password)
+        await updateProfile(auth.currentUser, { displayName: username })
+        this.updateUserData(user)
+        return user
+      } catch (error) {
+        // TODO: Handle errors
+        console.error('Error registering user:', error)
+        if (error.code === 'auth/email-already-in-use') {
+          alert('That email address is already in use!')
+        }
+      }
+    },
     async signInUser(email, password) {
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
         this.updateUserData(user)
+        return user
       } catch (error) {
         console.error('Error signing user in: ', error)
       }
@@ -50,21 +52,25 @@ async registerUser(username, email, password) {
         console.error('Error logging out the user: ', error)
       }
     },
-
-    getCurrentUser() {
-      return new Promise((resolve, reject) => {
-        const unsubcribe = onAuthStateChanged(
-          auth,
-          (user) => {
-            if (user) {
-              this.updateUserData(user)
-            }
-            resolve(user)
-          },
-          (e) => reject(e)
-        )
-        unsubcribe()
-      })
+    async getCurrentUser() {
+      try {
+        const user = await new Promise((resolve, reject) => {
+          const unsubscribe = onAuthStateChanged(
+            auth,
+            (user) => {
+              if (user) {
+                this.updateUserData(user)
+              }
+              resolve(user)
+            },
+            (e) => reject(e)
+          )
+          unsubscribe()
+        })
+        return user
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 })

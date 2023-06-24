@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from "vue-router";
 </script>
 
 <template>
@@ -10,11 +10,14 @@ import { RouterLink } from 'vue-router'
         <h1 class="title">TinyJournal</h1>
         <h2 class="subtitle">A simple and easy-to-use online journal</h2>
         <p>
-          Build your own little private space to jot down your thoughts and daily occurrences. With
-          its simple interface, TinyJournal allows you to start writing in no time!
+          Build your own little private space to jot down your thoughts and daily
+          occurrences. With its simple interface, TinyJournal allows you to start writing
+          in no time!
         </p>
-        <button type="button" class="button is-primary mt-4">Get started</button>
-        <!-- <router-link :to="{ name: 'sign-in' }">Get started</router-link> -->
+        <!-- TODO: Change link so it takes authenticated user to home -->
+        <router-link :to="{ name: 'sign-in' }" class="button is-primary mt-4"
+          >Get started</router-link
+        >
       </div>
     </div>
   </div>
