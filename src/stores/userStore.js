@@ -10,7 +10,8 @@ import { auth } from '../../firebaseConfig'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    userData: null
+    userData: null,
+    isLoading: true
   }),
 
   actions: {

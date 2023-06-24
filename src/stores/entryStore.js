@@ -14,16 +14,20 @@ import { auth, db } from '../../firebaseConfig'
 
 export const useEntryStore = defineStore('entryStore', {
   state: () => ({
-    entries: []
+    entries: [],
+    isLoading: true
   }),
   actions: {
     async getEntries(userId) {
+      this.isLoading = true
       try {
         const q = query(collection(db, 'entries'), where('author_id', '==', userId))
         const querySnapshot = await getDocs(q)
-        this.entries = querySnapshot.docs.map((doc) => ({ listId: doc.id, ...doc.data() }))
+        this.entries = querySnapshot.docs.map((doc) => ({ entry_id: doc.id, ...doc.data() }))
       } catch (error) {
         console.error('Failed to get entries: ', error)
+      } finally {
+        this.isLoading = false
       }
     },
     async getListById(listId) {
