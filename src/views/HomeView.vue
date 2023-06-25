@@ -2,11 +2,14 @@
 import { ref, onUnmounted, computed } from "vue";
 import { PhPenNib } from "@phosphor-icons/vue";
 import EntryCard from "@/components/EntryCard.vue";
+import EntryForm from "@/components/forms/EntryForm.vue";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
-import { storeToRefs } from "pinia";
 import { useEntryStore } from "@/stores/entryStore.js";
+import { storeToRefs } from "pinia";
 
 const userStore = useUserStore();
 const { userData } = storeToRefs(userStore);
@@ -54,7 +57,7 @@ const numOfEntriesText = computed(() => {
 
       <button
         type="button"
-        class="button is-primary is-fullwidth mt-6"
+        class="button is-primary is-large-mobile mt-6"
         @click="showModal = true"
       >
         <span class="icon mr-2">
@@ -62,14 +65,20 @@ const numOfEntriesText = computed(() => {
         </span>
         Write entry
       </button>
+      <EntryForm
+        v-if="showModal"
+        @click="showModal = true"
+        @closeModal="showModal = false"
+      />
     </div>
   </template>
-
-  <!-- <GameListCreate v-if="showModal" @closeModal="showModal = false" /> -->
 </template>
 
 <style scoped>
 button {
-  padding: 1.5em 0;
+  padding: 1.5em;
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
 }
 </style>

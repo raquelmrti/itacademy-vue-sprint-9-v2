@@ -8,6 +8,6 @@ const props = defineProps({
   <div class="box">
     <h2 class="title is-5 mb-1">{{ props.entry.headline }}</h2>
     <h3 class="mb-4">{{ props.entry.date_created }}</h3>
-    <p>{{ props.entry.body }}</p>
+    <p v-html="props.entry.body"></p>
   </div>
 </template>
