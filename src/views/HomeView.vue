@@ -1,10 +1,9 @@
 <script setup>
-import { ref, onUnmounted, computed } from "vue";
+import { ref, computed } from "vue";
 import { PhPenNib } from "@phosphor-icons/vue";
 import EntryCard from "@/components/EntryCard.vue";
 import EntryForm from "@/components/forms/EntryForm.vue";
-import { auth } from "../../firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
+import { RouterLink } from "vue-router";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
@@ -17,17 +16,11 @@ const { userData } = storeToRefs(userStore);
 const entryStore = useEntryStore();
 const { entries, sortedEntries, isLoading } = storeToRefs(entryStore);
 
-// TODO: get rid of this maybe
-onUnmounted(() => {
-  entryStore.$reset();
-});
-
 // data
 const showModal = ref(false);
 const userHasEntries = computed(() => {
   return entries.value.length > 0;
 });
-
 const numOfEntries = computed(() => {
   return entries.value.length;
 });
@@ -39,7 +32,7 @@ const numOfEntriesText = computed(() => {
 
 <template>
   <template v-if="userData">
-    <div class="column is-9 mx-auto">
+    <div class="column is-7 mx-auto">
       <h1 class="title">{{ userData.username }}'s journal</h1>
 
       <template v-if="isLoading">
@@ -48,7 +41,11 @@ const numOfEntriesText = computed(() => {
 
       <template v-else-if="userHasEntries">
         <span class="is-block mb-4">{{ numOfEntriesText }}</span>
-        <EntryCard v-for="entry in sortedEntries" :key="entry.entry_id" :entry="entry" />
+        <div class="mb-5" v-for="entry in sortedEntries" :key="entry.entry_id">
+          <router-link :to="{ name: 'entry', params: { id: entry.entry_id } }">
+            <EntryCard :entry="entry" />
+          </router-link>
+        </div>
       </template>
 
       <template v-else>

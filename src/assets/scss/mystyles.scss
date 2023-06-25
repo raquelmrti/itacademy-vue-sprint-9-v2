@@ -1,35 +1,31 @@
 @charset "utf-8";
-
-// Import a Google Font
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-// Set your brand colors
+// brand colors
 $wine: #9b4464;
-$pink: #fa7c91;
 $brown: #757763;
 $beige-light: #d0d1cd;
 $beige-lighter: #fffffd;
+$red: #dd3f3f;
+$blue: #6376bf;
+$green: #7dbf91;
 
-// Update Bulma's global variables
+// Bulma global variables
 $family-sans-serif: 'Inter', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $wine;
-$link: $pink;
-$widescreen-enabled: false;
-$fullhd-enabled: false;
+$link: $blue;
 
-// Update some of Bulma's component variables
+// Bulma component variables
 $body-background-color: $beige-lighter;
-$control-border-width: 2px;
-$input-border-color: transparent;
 $input-shadow: none;
+$modal-background: #4b2d32a6 !important;
 
 // Box
 .box {
-  box-shadow: none !important;
+  // box-shadow: none !important;
   border: 1px solid $grey-light;
 }
 
-// Import only what you need from Bulma
 @import 'node_modules/bulma/bulma.sass';

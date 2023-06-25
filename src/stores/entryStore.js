@@ -33,22 +33,22 @@ export const useEntryStore = defineStore('entryStore', {
         this.isLoading = false
       }
     },
-    async getEntryById(entry_id) {
+    async getEntryById(entryId) {
       if (this.entries.length > 0) {
-        return this.entries.find((entry) => entry.entry_id === entry_id)
+        return this.entries.find((entry) => entry.entry_id === entryId)
       } else {
         this.isLoading = true
         try {
-          const entryRef = doc(db, 'entries', entry_id)
-          const listSnap = await getDoc(entryRef)
-          if (!listSnap.exists()) {
+          const entryRef = doc(db, 'entries', entryId)
+          const entrySnap = await getDoc(entryRef)
+          if (!entrySnap.exists()) {
             throw new Error("List doesn't exist")
           }
-          if (listSnap.data().author_id !== auth.currentUser.uid) {
+          if (entrySnap.data().author_id !== auth.currentUser.uid) {
             throw new Error('No permission to get this entry')
           }
 
-          return listSnap.data()
+          return entrySnap.data()
         } catch (error) {
           console.error('Failed to get entry: ', error)
         } finally {
@@ -59,10 +59,12 @@ export const useEntryStore = defineStore('entryStore', {
     async createEntry(entryHeadline, entryBody, date, parsedDate) {
       this.isLoading = true
       try {
+        const headline = entryHeadline || 'Untitled Entry'
         const entry = {
-          headline: entryHeadline,
+          headline,
           body: entryBody,
           author_id: auth.currentUser.uid,
+          author_username: auth.currentUser.displayName,
           date_created: date,
           date_created_parsed: parsedDate,
           date_modified: date,
@@ -83,11 +85,11 @@ export const useEntryStore = defineStore('entryStore', {
       this.isLoading = true
       try {
         const entryRef = doc(db, 'entries', entry_id)
-        const listSnap = await getDoc(entryRef)
-        if (!listSnap.exists()) {
+        const entrySnap = await getDoc(entryRef)
+        if (!entrySnap.exists()) {
           throw new Error("List doesn't exist")
         }
-        if (listSnap.data().author_id !== auth.currentUser.uid) {
+        if (entrySnap.data().author_id !== auth.currentUser.uid) {
           throw new Error('No permission to delete this entry')
         }
 
@@ -99,65 +101,44 @@ export const useEntryStore = defineStore('entryStore', {
         this.isLoading = false
       }
     },
-    async updateListTitleAndDescription(entry_id, newTitle, newDescription, updateDate) {
-      this.isLoading = true
+    async updateEntry(entryId, newHeadline, newBody, updateDate, updateParsedDate) {
       try {
-        const entryRef = doc(db, 'entries', entry_id)
-        const listSnap = await getDoc(entryRef)
-        if (!listSnap.exists()) {
-          throw new Error("List doesn't exist")
-        }
-        if (listSnap.data().author_id !== auth.currentUser.uid) {
-          throw new Error('No permission to update this entry')
-        }
-        await updateDoc(entryRef, {
-          title: newTitle,
-          description: newDescription,
-          lastUpdatedDate: updateDate
-        })
-        this.entries = this.entries.map((entry) => {
-          entry.entry_id === entry_id
-            ? {
-                ...entry,
-                title: newTitle,
-                description: newDescription,
-                lastUpdatedDate: updateDate
-              }
-            : entry
-        })
-      } catch (error) {
-        console.error(error.message)
-      } finally {
-        this.isLoading = false
-      }
-    },
+        this.isLoading = true
 
-    async updateListGames(entry_id, games) {
-      this.isLoading = true
-      try {
-        const entryRef = doc(db, 'entries', entry_id)
-        const listSnap = await getDoc(entryRef)
-        if (!listSnap.exists()) {
-          throw new Error("List doesn't exist")
+        const entryRef = doc(db, 'entries', entryId)
+        const entrySnap = await getDoc(entryRef)
+        if (!entrySnap.exists()) {
+          throw new Error("Entry doesn't exist")
         }
-        if (listSnap.data().author_id !== auth.currentUser.uid) {
+
+        const authorId = entrySnap.data().author_id
+        const currentUserId = auth.currentUser.uid
+        if (authorId !== currentUserId) {
           throw new Error('No permission to update this entry')
         }
+
         await updateDoc(entryRef, {
-          games: [...games]
+          headline: newHeadline,
+          body: newBody,
+          date_modified: updateDate,
+          date_modified_parsed: updateParsedDate
         })
+
         this.entries = this.entries.map((entry) => {
-          entry.entry_id === entry_id
-            ? {
-                ...entry,
-                title: newTitle,
-                description: newDescription,
-                lastUpdatedDate: updateDate
-              }
-            : entry
+          if (entry.entry_id === entryId) {
+            return {
+              ...entry,
+              headline: newHeadline,
+              body: newBody,
+              date_modified: updateDate,
+              date_modified_parsed: updateParsedDate
+            }
+          } else {
+            return entry
+          }
         })
       } catch (error) {
-        console.error(error.message)
+        console.error('error.message')
       } finally {
         this.isLoading = false
       }

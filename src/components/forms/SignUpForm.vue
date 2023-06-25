@@ -77,9 +77,3 @@ const handleSubmit = async () => {
     </span>
   </form>
 </template>
-
-<style scoped>
-.input {
-  border: 1px solid lightgray;
-}
-</style>

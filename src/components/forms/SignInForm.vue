@@ -69,9 +69,3 @@ const handleSubmit = async () => {
     </form>
   </div>
 </template>
-
-<style scoped>
-.input {
-  border: 1px solid lightgray;
-}
-</style>

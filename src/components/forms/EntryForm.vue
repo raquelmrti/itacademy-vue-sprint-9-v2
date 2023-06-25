@@ -10,13 +10,10 @@ const entryStore = useEntryStore();
 const entryHeadline = ref("");
 const entryBody = ref("");
 
-const emit = defineEmits(["closeModal"]);
+//FIXME: the dang emit error
+defineEmits(["closeModal"]);
 
 // methods
-const close = () => {
-  emit("closeModal");
-};
-
 const resetForm = () => {
   entryHeadline.value = "";
   entryBody.value = "";
@@ -41,7 +38,11 @@ const onSubmit = () => {
           <form @submit.prevent="onSubmit">
             <header class="modal-card-head">
               <p class="modal-card-title">New journal entry</p>
-              <button class="delete" aria-label="close" @click="close"></button>
+              <button
+                class="delete"
+                aria-label="close"
+                @click="$emit('closeModal')"
+              ></button>
             </header>
 
             <section class="modal-card-body">
@@ -52,7 +53,6 @@ const onSubmit = () => {
                     type="text"
                     placeholder="Title"
                     v-model.trim="entryHeadline"
-                    required
                   />
                 </div>
               </div>
@@ -74,7 +74,7 @@ const onSubmit = () => {
                 <span class="icon mr-2"> <ph-paper-plane-tilt :size="20" /></span>
                 Publish
               </button>
-              <button class="button" @click="close">Cancel</button>
+              <button class="button" @click="$emit('closeModal')">Cancel</button>
             </footer>
           </form>
         </div>
@@ -84,11 +84,6 @@ const onSubmit = () => {
 </template>
 
 <style scoped>
-input,
-textarea {
-  border: 1px solid lightgray;
-}
-
 input::placeholder,
 textarea::placeholder {
   color: #9b9b9b;
