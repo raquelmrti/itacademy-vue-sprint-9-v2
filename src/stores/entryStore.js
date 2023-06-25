@@ -17,6 +17,9 @@ export const useEntryStore = defineStore('entryStore', {
     entries: [],
     isLoading: true
   }),
+  getters: {
+    sortedEntries: (state) => state.entries.sort((a, b) => b.date_created - a.date_created)
+  },
   actions: {
     async getEntries(userId) {
       this.isLoading = true
@@ -53,7 +56,7 @@ export const useEntryStore = defineStore('entryStore', {
         }
       }
     },
-    async createEntry(entryHeadline, entryBody, date) {
+    async createEntry(entryHeadline, entryBody, date, parsedDate) {
       this.isLoading = true
       try {
         const entry = {
@@ -61,7 +64,9 @@ export const useEntryStore = defineStore('entryStore', {
           body: entryBody,
           author_id: auth.currentUser.uid,
           date_created: date,
-          date_modified: date
+          date_created_parsed: parsedDate,
+          date_modified: date,
+          date_modified_parsed: parsedDate
         }
         const entryRef = await addDoc(collection(db, 'entries'), entry)
         this.entries.push({

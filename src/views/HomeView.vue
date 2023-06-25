@@ -15,7 +15,7 @@ const userStore = useUserStore();
 const { userData } = storeToRefs(userStore);
 
 const entryStore = useEntryStore();
-const { entries, isLoading } = storeToRefs(entryStore);
+const { entries, sortedEntries, isLoading } = storeToRefs(entryStore);
 
 // TODO: get rid of this maybe
 onUnmounted(() => {
@@ -48,18 +48,15 @@ const numOfEntriesText = computed(() => {
 
       <template v-else-if="userHasEntries">
         <span class="is-block mb-4">{{ numOfEntriesText }}</span>
-        <EntryCard v-for="entry in entries" :key="entry.entry_id" :entry="entry" />
+        <EntryCard v-for="entry in sortedEntries" :key="entry.entry_id" :entry="entry" />
       </template>
 
       <template v-else>
+        <img src="public\img\woman-writing.svg" class="no-entries-img" />
         <p>Your journal has no entries yet. Try writing your first one!</p>
       </template>
 
-      <button
-        type="button"
-        class="button is-primary is-large-mobile mt-6"
-        @click="showModal = true"
-      >
+      <button type="button" class="button is-primary mt-6" @click="showModal = true">
         <span class="icon mr-2">
           <ph-pen-nib :size="20" />
         </span>
@@ -75,6 +72,12 @@ const numOfEntriesText = computed(() => {
 </template>
 
 <style scoped>
+.no-entries-img {
+  max-width: 400px;
+  display: block;
+  margin: 0 auto;
+}
+
 button {
   padding: 1.5em;
   position: fixed;

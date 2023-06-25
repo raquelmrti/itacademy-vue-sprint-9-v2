@@ -7,8 +7,8 @@ import { useEntryStore } from "@/stores/entryStore.js";
 const entryStore = useEntryStore();
 
 // data
-const entryHeadline = ref("New entry");
-const entryBody = ref("New entry body");
+const entryHeadline = ref("");
+const entryBody = ref("");
 
 const emit = defineEmits(["closeModal"]);
 
@@ -23,9 +23,10 @@ const resetForm = () => {
 };
 
 const onSubmit = () => {
-  const date = new Date().toLocaleString();
+  const date = new Date();
+  const parsedDate = date.toLocaleString();
   const parsedBody = entryBody.value.replace(/\r\n|\r|\n/g, "<br>");
-  entryStore.createEntry(entryHeadline.value, parsedBody, date);
+  entryStore.createEntry(entryHeadline.value, parsedBody, date, parsedDate);
   resetForm();
   close();
 };

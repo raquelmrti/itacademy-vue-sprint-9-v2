@@ -4,17 +4,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 // Set your brand colors
-$purple: #8A4D76;
-$pink: #FA7C91;
+$wine: #9b4464;
+$pink: #fa7c91;
 $brown: #757763;
-$beige-light: #D0D1CD;
+$beige-light: #d0d1cd;
 $beige-lighter: #fffffd;
 
 // Update Bulma's global variables
 $family-sans-serif: 'Inter', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
-$primary: $purple;
+$primary: $wine;
 $link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
@@ -32,4 +32,4 @@ $input-shadow: none;
 }
 
 // Import only what you need from Bulma
-@import "node_modules/bulma/bulma.sass";
+@import 'node_modules/bulma/bulma.sass';
