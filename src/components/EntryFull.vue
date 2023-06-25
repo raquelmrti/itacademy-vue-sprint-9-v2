@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, toRef, watch } from "vue";
-import { PhPencilSimple, PhFloppyDisk, PhX, PhTrash, PhCheck } from "@phosphor-icons/vue";
+import { ref, computed } from "vue";
+import { PhPencilSimple, PhX, PhTrash, PhCheck } from "@phosphor-icons/vue";
+import router from "@/router/index";
 
 // stores
 import { useEntryStore } from "@/stores/entryStore.js";
@@ -41,6 +42,14 @@ const onCancel = () => {
   isEditing.value = false;
   headline.value = props.entry.headline;
   body.value = props.entry.body;
+};
+
+const onDelete = () => {
+  const deleteConfirm = confirm("Are you sure you want to delete this entry?");
+  if (deleteConfirm) {
+    entryStore.deleteEntry(entryId.value);
+    router.push("/home");
+  }
 };
 </script>
 
@@ -83,7 +92,7 @@ const onCancel = () => {
             Cancel
           </button>
 
-          <button class="button is-danger">
+          <button class="button is-danger" @click="onDelete">
             <span class="icon mr-2" weight="fill">
               <ph-trash :size="20" />
             </span>

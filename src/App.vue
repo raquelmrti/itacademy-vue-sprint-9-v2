@@ -19,9 +19,19 @@ onAuthStateChanged(auth, async (user) => {
 </script>
 
 <template>
-  <div class="container px-5 pt-6 mt-6">
+  <div class="container px-5 pt-6 my-6">
     <div class="columns">
       <RouterView />
     </div>
   </div>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>TinyJournal</strong> by
+        <a href="https://github.com/raquelmrti" class="has-text-primary"
+          >Raquel Martínez</a
+        >, for IT Academy. 2023
+      </p>
+    </div>
+  </footer>
 </template>

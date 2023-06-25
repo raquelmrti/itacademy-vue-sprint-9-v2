@@ -81,10 +81,10 @@ export const useEntryStore = defineStore('entryStore', {
         this.isLoading = false
       }
     },
-    async deleteList(entry_id) {
+    async deleteEntry(entryId) {
       this.isLoading = true
       try {
-        const entryRef = doc(db, 'entries', entry_id)
+        const entryRef = doc(db, 'entries', entryId)
         const entrySnap = await getDoc(entryRef)
         if (!entrySnap.exists()) {
           throw new Error("List doesn't exist")
@@ -94,7 +94,7 @@ export const useEntryStore = defineStore('entryStore', {
         }
 
         await deleteDoc(entryRef)
-        this.entries = this.entries.filter((entry) => entry.entry_id !== entry_id)
+        this.entries = this.entries.filter((entry) => entry.entry_id !== entryId)
       } catch (error) {
         console.error('Error deleting entry: ', error.message)
       } finally {

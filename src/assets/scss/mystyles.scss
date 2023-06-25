@@ -28,4 +28,9 @@ $modal-background: #4b2d32a6 !important;
   border: 1px solid $grey-light;
 }
 
+body,
+#app {
+  height: 100vh !important;
+}
+
 @import 'node_modules/bulma/bulma.sass';
