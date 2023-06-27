@@ -36,6 +36,7 @@ watch(userData, () => {
       <div class="visible">
         <!-- TODO: Logo -->
         <div class="logo">TinyJournal</div>
+
         <div class="icon"></div>
         <div class="username" @click="toggleShowMenu">
           {{ userData.username }}
@@ -47,7 +48,13 @@ watch(userData, () => {
             v-if="!showMenu"
             @click="toggleShowMenu"
           />
-          <ph-caret-up class="caret-icon" :size="20" v-else @click="toggleShowMenu" />
+
+          <ph-caret-up
+            class="caret-icon"
+            :size="20"
+            v-if="showMenu"
+            @click="toggleShowMenu"
+          />
         </span>
       </div>
     </div>
@@ -65,8 +72,7 @@ watch(userData, () => {
   height: 40px;
   border-radius: 100%;
   background-image: v-bind(icon);
-  background-size: 100%;
-  margin-right: 1em;
+  background-size: cover;
 }
 
 span > * {
@@ -99,8 +105,9 @@ nav {
   border-radius: 6px;
 }
 
-.username:hover {
-  background-color: rgba(0, 0, 0, 0.123);
+.username:hover,
+span:hover {
+  cursor: pointer;
 }
 .menu {
   position: absolute;
@@ -113,6 +120,7 @@ nav {
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
     0 0px 0 1px rgba(10, 10, 10, 0.02);
   margin-top: 1em;
+  cursor: pointer;
 }
 
 .menu-button {
@@ -125,6 +133,9 @@ nav {
 }
 
 @media screen and (max-width: 530px) {
+  .icon {
+    margin-right: 1em;
+  }
   .username {
     display: none;
   }

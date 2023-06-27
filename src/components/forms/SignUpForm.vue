@@ -16,7 +16,7 @@ const icon = ref("");
 // methods
 const getUserIconImg = async () => {
   const img = await fetchUnsplashImage();
-  icon.value = img.message;
+  icon.value = img;
 };
 const handleSubmit = async () => {
   await getUserIconImg();

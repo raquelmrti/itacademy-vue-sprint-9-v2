@@ -53,6 +53,7 @@ const numOfEntriesText = computed(() => {
         <p>Your journal has no entries yet. Try writing your first one!</p>
       </template>
 
+      <!-- TODO: Make sticky -->
       <button type="button" class="button is-primary mt-6" @click="showModal = true">
         <span class="icon mr-2">
           <ph-pen-nib :size="20" />
