@@ -17,7 +17,6 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     userStore.updateUserData(user);
     await entryStore.getEntries(userStore.userData.uid);
-    console.log(user);
     // const img = await fetchUnsplashImage();
     // console.log(img.message);
   }

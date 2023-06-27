@@ -1,7 +1,6 @@
 <script setup>
-import router from "@/router/index";
 import { useRoute } from "vue-router";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import EntryFull from "@/components/EntryFull.vue";
 
 // stores

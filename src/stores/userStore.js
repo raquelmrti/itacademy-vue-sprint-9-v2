@@ -7,11 +7,10 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
-import API_KEY from '../assets/js/apiKey.js'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    userData: null,
+    userData: {},
     isLoading: true
   }),
 
@@ -53,6 +52,7 @@ export const useUserStore = defineStore('userStore', {
       try {
         await signOut(auth)
         this.userData = null
+        return 'success'
       } catch (error) {
         console.error('Error logging out the user: ', error)
       }

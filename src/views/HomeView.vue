@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
-import { PhPenNib } from "@phosphor-icons/vue";
 import EntryCard from "@/components/EntryCard.vue";
 import EntryForm from "@/components/forms/EntryForm.vue";
 import { RouterLink } from "vue-router";
+import { PhPenNib } from "@phosphor-icons/vue";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
