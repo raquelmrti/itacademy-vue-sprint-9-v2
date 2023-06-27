@@ -7,6 +7,7 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
+import API_KEY from '../assets/js/apiKey.js'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -19,14 +20,17 @@ export const useUserStore = defineStore('userStore', {
       this.userData = {
         uid: user.uid,
         username: user.displayName,
-        email: user.email
+        email: user.email,
+        icon: user.photoURL
       }
     },
-    async registerUser(username, email, password) {
+    async registerUser(username, email, password, icon) {
       try {
+        console.log(icon)
         const { user } = await createUserWithEmailAndPassword(auth, email, password)
-        await updateProfile(auth.currentUser, { displayName: username })
+        await updateProfile(auth.currentUser, { displayName: username, photoURL: icon })
         this.updateUserData(user)
+        console.log(user)
         return user
       } catch (error) {
         // TODO: Handle errors

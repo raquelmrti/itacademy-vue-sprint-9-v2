@@ -77,22 +77,22 @@ const onDelete = () => {
           Edit
         </button>
 
-        <button class="button is-brown-light" v-else @click="onSave">
-          <span class="icon mr-2">
-            <ph-check :size="20" color="#55915f" weight="bold" />
-          </span>
-          Save
-        </button>
+        <template v-else>
+          <button class="button is-success is-fullwidth" @click="onSave">
+            <span class="icon mr-2">
+              <ph-check :size="20" weight="bold" />
+            </span>
+            Save
+          </button>
 
-        <template v-if="isEditing">
-          <button class="button is-brown-light" @click="onCancel">
+          <button class="button is-brown-light is-fullwidth" @click="onCancel">
             <span class="icon mr-2">
               <ph-x :size="20" weight="bold" />
             </span>
             Cancel
           </button>
 
-          <button class="button is-danger" @click="onDelete">
+          <button class="button is-brown-light is-fullwidth" @click="onDelete">
             <span class="icon mr-2" weight="fill">
               <ph-trash :size="20" />
             </span>
@@ -111,10 +111,12 @@ const onDelete = () => {
 
 .date {
   font-size: 0.8em;
+  color: #b3acac;
 }
 
 .is-brown-light {
   background-color: #f1eded;
+  color: gray;
   border: none;
 }
 .edit-title {

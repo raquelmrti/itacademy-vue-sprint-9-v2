@@ -14,6 +14,10 @@ const entryBody = ref("");
 defineEmits(["closeModal"]);
 
 // methods
+// const close = () => {
+//   $emit("closeModal");
+// };
+
 const resetForm = () => {
   entryHeadline.value = "";
   entryBody.value = "";
@@ -25,6 +29,7 @@ const onSubmit = () => {
   const parsedBody = entryBody.value.replace(/\r\n|\r|\n/g, "<br>");
   entryStore.createEntry(entryHeadline.value, parsedBody, date, parsedDate);
   resetForm();
+  //FIXME: modal doesn't close
   close();
 };
 </script>

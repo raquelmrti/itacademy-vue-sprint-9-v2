@@ -3,22 +3,29 @@ import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { RouterLink, RouterView } from "vue-router";
 import { onMounted, ref, computed, watch } from "vue";
+import TheNavbar from "@/components/TheNavbar.vue";
 import { useUserStore } from "@/stores/userStore.js";
 const userStore = useUserStore();
 
 import { useEntryStore } from "@/stores/entryStore.js";
 const entryStore = useEntryStore();
 
+// import { fetchUnsplashImage } from "./assets/js/unsplashService.js";
+
 // Update user data whenever auth state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     userStore.updateUserData(user);
     await entryStore.getEntries(userStore.userData.uid);
+    console.log(user);
+    // const img = await fetchUnsplashImage();
+    // console.log(img.message);
   }
 });
 </script>
 
 <template>
+  <TheNavbar />
   <div class="container px-5 pt-6 my-6">
     <div class="columns">
       <RouterView />

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import router from "@/router/index";
+import { fetchUnsplashImage } from "@/assets/js/unsplashService.js";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
@@ -10,13 +11,27 @@ const userStore = useUserStore();
 const username = ref("Test name");
 const email = ref("testemail@gmail.com");
 const password = ref("testpassword1234");
+const icon = ref("");
 
 // methods
+const getUserIconImg = async () => {
+  const img = await fetchUnsplashImage();
+  icon.value = img.message;
+};
 const handleSubmit = async () => {
-  const user = await userStore.registerUser(username.value, email.value, password.value);
+  await getUserIconImg();
+  console.log(icon.value);
+  const user = await userStore.registerUser(
+    username.value,
+    email.value,
+    password.value,
+    icon.value
+  );
   // TODO: Handle register errors
   if (user) {
     router.push("/home");
+    // TODO: Make pop up
+    alert("Welcome!!!!!!!!!!!");
   }
 };
 </script>

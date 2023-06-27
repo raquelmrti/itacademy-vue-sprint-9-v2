@@ -42,7 +42,7 @@ export const useEntryStore = defineStore('entryStore', {
           const entryRef = doc(db, 'entries', entryId)
           const entrySnap = await getDoc(entryRef)
           if (!entrySnap.exists()) {
-            throw new Error("List doesn't exist")
+            throw new Error("Entry doesn't exist")
           }
           if (entrySnap.data().author_id !== auth.currentUser.uid) {
             throw new Error('No permission to get this entry')
@@ -87,7 +87,7 @@ export const useEntryStore = defineStore('entryStore', {
         const entryRef = doc(db, 'entries', entryId)
         const entrySnap = await getDoc(entryRef)
         if (!entrySnap.exists()) {
-          throw new Error("List doesn't exist")
+          throw new Error(" doesn't exist")
         }
         if (entrySnap.data().author_id !== auth.currentUser.uid) {
           throw new Error('No permission to delete this entry')
@@ -101,6 +101,7 @@ export const useEntryStore = defineStore('entryStore', {
         this.isLoading = false
       }
     },
+
     async updateEntry(entryId, newHeadline, newBody, updateDate, updateParsedDate) {
       try {
         this.isLoading = true
@@ -117,21 +118,20 @@ export const useEntryStore = defineStore('entryStore', {
           throw new Error('No permission to update this entry')
         }
 
-        await updateDoc(entryRef, {
+        const updatedEntry = {
           headline: newHeadline,
           body: newBody,
           date_modified: updateDate,
           date_modified_parsed: updateParsedDate
-        })
+        }
+
+        await updateDoc(entryRef, updatedEntry)
 
         this.entries = this.entries.map((entry) => {
           if (entry.entry_id === entryId) {
             return {
               ...entry,
-              headline: newHeadline,
-              body: newBody,
-              date_modified: updateDate,
-              date_modified_parsed: updateParsedDate
+              ...updatedEntry
             }
           } else {
             return entry
