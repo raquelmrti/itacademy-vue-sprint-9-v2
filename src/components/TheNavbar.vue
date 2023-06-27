@@ -1,7 +1,7 @@
 <script setup>
 import { useUserStore } from "@/stores/userStore.js";
 import { ref, watch } from "vue";
-import { useRouter, RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 const router = useRouter();
 import { PhCaretDown, PhCaretUp } from "@phosphor-icons/vue";
 

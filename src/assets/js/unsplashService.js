@@ -3,7 +3,6 @@ const API_URL = 'https://api.codetabs.com/v1/proxy?quest=https://api.unsplash.co
 // user that I picked because I like their pictures
 const username = 'codioful'
 const url = `${API_URL}?client_id=${API_KEY}%26username=${username}`
-// const url = 'https://dog.ceo/api/breeds/image/random'
 
 export async function fetchUnsplashImage() {
   try {
