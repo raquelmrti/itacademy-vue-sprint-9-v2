@@ -40,7 +40,9 @@ watch(
     <div class="visible-wrapper">
       <div class="visible">
         <!-- TODO: Logo -->
-        <div class="logo">TinyJournal</div>
+        <div class="logo">
+          <img src="public\img\logo.png" alt="TinyJournal logo" class="logo-img" />
+        </div>
 
         <div class="userIcon"></div>
         <div class="username" @click="toggleShowMenu">
@@ -102,6 +104,10 @@ nav {
 
 .logo {
   flex-grow: 1;
+}
+
+.logo-img {
+  max-width: 150px;
 }
 
 .username {

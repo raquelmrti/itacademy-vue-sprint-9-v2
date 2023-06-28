@@ -20,7 +20,6 @@ const getUserIconImg = async () => {
 };
 const handleSubmit = async () => {
   await getUserIconImg();
-  console.log(icon.value);
   const user = await userStore.registerUser(
     username.value,
     email.value,

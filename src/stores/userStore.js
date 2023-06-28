@@ -24,12 +24,11 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     async registerUser(username, email, password, icon) {
+      this.isLoading = true
       try {
-        console.log(icon)
         const { user } = await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: username, photoURL: icon })
         this.updateUserData(user)
-        console.log(user)
         return user
       } catch (error) {
         // TODO: Handle errors
@@ -37,6 +36,8 @@ export const useUserStore = defineStore('userStore', {
         if (error.code === 'auth/email-already-in-use') {
           alert('That email address is already in use!')
         }
+      } finally {
+        this.isLoading = false
       }
     },
     async signInUser(email, password) {
