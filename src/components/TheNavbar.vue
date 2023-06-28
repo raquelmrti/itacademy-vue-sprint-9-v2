@@ -1,7 +1,7 @@
 <script setup>
 import { useUserStore } from "@/stores/userStore.js";
-import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { ref, watch, onMounted } from "vue";
+import { useRouter, RouterLink } from "vue-router";
 const router = useRouter();
 import { PhCaretDown, PhCaretUp } from "@phosphor-icons/vue";
 
@@ -24,27 +24,33 @@ const onLogout = async () => {
   }
 };
 
-watch(
-  userData,
-  () => {
-    icon.value = "url(" + userStore.userData.icon + ")";
-  },
-  {
-    immediate: true,
-  }
-);
+onMounted(() => {
+  document.addEventListener("click", (e) => {
+    console.log(e.target);
+  });
+}),
+  watch(
+    userData,
+    () => {
+      icon.value = "url(" + userStore.userData.icon + ")";
+    },
+    {
+      immediate: true,
+    }
+  );
 </script>
 
 <template>
   <nav>
     <div class="visible-wrapper">
       <div class="visible">
-        <!-- TODO: Logo -->
         <div class="logo">
-          <img src="public\img\logo.png" alt="TinyJournal logo" class="logo-img" />
+          <RouterLink :to="{ name: 'home' }">
+            <img src="public\img\logo.png" alt="TinyJournal logo" class="logo-img" />
+          </RouterLink>
         </div>
 
-        <div class="userIcon"></div>
+        <div class="icon"></div>
         <div class="username" @click="toggleShowMenu">
           {{ userData.username }}
         </div>
@@ -74,9 +80,9 @@ watch(
 </template>
 
 <style scoped>
-.userIcon {
-  width: 40px;
-  height: 40px;
+.icon {
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   background-image: v-bind(icon);
   background-size: cover;
@@ -114,10 +120,12 @@ nav {
   cursor: default;
   padding: 0.5em 1em;
   border-radius: 6px;
+  font-size: 0.85em;
 }
 
 .username:hover,
-span:hover {
+span:hover,
+.menu-button {
   cursor: pointer;
 }
 .menu {
@@ -131,7 +139,6 @@ span:hover {
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
     0 0px 0 1px rgba(10, 10, 10, 0.02);
   margin-top: 1em;
-  cursor: pointer;
 }
 
 .menu-button {
@@ -141,10 +148,11 @@ span:hover {
   justify-self: end;
   border: none;
   color: #757763;
+  z-index: 1000;
 }
 
 @media screen and (max-width: 530px) {
-  .userIcon {
+  .icon {
     margin-right: 1em;
   }
   .username {
@@ -154,7 +162,6 @@ span:hover {
   span > * {
     margin-left: 0;
   }
-
   .menu {
     padding: 1.5em;
     border-radius: 6px;

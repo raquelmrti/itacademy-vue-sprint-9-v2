@@ -31,6 +31,8 @@ const entryWasModified = computed(() => {
 const toggleEditMode = () => {
   isEditing.value = !isEditing.value;
 };
+
+// TODO: if user didn't modify anything, don't update
 const onSave = () => {
   isEditing.value = false;
   const date = new Date();

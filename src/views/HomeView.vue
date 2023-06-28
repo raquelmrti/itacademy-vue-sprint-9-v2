@@ -53,18 +53,13 @@ const numOfEntriesText = computed(() => {
         <p>Your journal has no entries yet. Try writing your first one!</p>
       </template>
 
-      <!-- TODO: Make sticky -->
       <button type="button" class="button is-primary mt-6" @click="showModal = true">
         <span class="icon mr-2">
           <ph-pen-nib :size="20" />
         </span>
         Write entry
       </button>
-      <EntryForm
-        v-if="showModal"
-        @click="showModal = true"
-        @closeModal="showModal = false"
-      />
+      <EntryForm v-if="showModal" @closeModal="showModal = false" />
     </div>
   </template>
 </template>
@@ -81,5 +76,7 @@ button {
   position: fixed;
   bottom: 1em;
   right: 1em;
+  box-shadow: 0 0.5em 1em -0.125em rgb(227 115 115 / 33%),
+    0 0px 0 1px rgba(10, 10, 10, 0.02);
 }
 </style>

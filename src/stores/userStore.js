@@ -11,7 +11,8 @@ import { auth } from '../../firebaseConfig'
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: {},
-    isLoading: true
+    isLoading: false,
+    error: ''
   }),
 
   actions: {
@@ -29,24 +30,26 @@ export const useUserStore = defineStore('userStore', {
         const { user } = await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: username, photoURL: icon })
         this.updateUserData(user)
+        this.error = ''
         return user
       } catch (error) {
-        // TODO: Handle errors
-        console.error('Error registering user:', error)
-        if (error.code === 'auth/email-already-in-use') {
-          alert('That email address is already in use!')
-        }
+        this.error = error
       } finally {
         this.isLoading = false
       }
     },
     async signInUser(email, password) {
+      this.isLoading = true
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
         this.updateUserData(user)
+        this.error = ''
         return user
       } catch (error) {
-        console.error('Error signing user in: ', error)
+        console.log(error.code)
+        this.error = error
+      } finally {
+        this.isLoading = false
       }
     },
     async logoutUser() {

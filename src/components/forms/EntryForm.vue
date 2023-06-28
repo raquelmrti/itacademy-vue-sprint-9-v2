@@ -10,13 +10,11 @@ const entryStore = useEntryStore();
 const entryHeadline = ref("");
 const entryBody = ref("");
 
-//FIXME: the dang emit error
-defineEmits(["closeModal"]);
-
 // methods
-// const close = () => {
-//   $emit("closeModal");
-// };
+const emit = defineEmits(["closeModal"]);
+const close = () => {
+  emit("closeModal");
+};
 
 const resetForm = () => {
   entryHeadline.value = "";
@@ -29,7 +27,6 @@ const onSubmit = () => {
   const parsedBody = entryBody.value.replace(/\r\n|\r|\n/g, "<br>");
   entryStore.createEntry(entryHeadline.value, parsedBody, date, parsedDate);
   resetForm();
-  //FIXME: modal doesn't close
   close();
 };
 </script>
@@ -43,11 +40,7 @@ const onSubmit = () => {
           <form @submit.prevent="onSubmit">
             <header class="modal-card-head">
               <p class="modal-card-title">New journal entry</p>
-              <button
-                class="delete"
-                aria-label="close"
-                @click="$emit('closeModal')"
-              ></button>
+              <button class="delete" aria-label="close" @click="close"></button>
             </header>
 
             <section class="modal-card-body">
@@ -79,7 +72,7 @@ const onSubmit = () => {
                 <span class="icon mr-2"> <ph-paper-plane-tilt :size="20" /></span>
                 Publish
               </button>
-              <button class="button" @click="$emit('closeModal')">Cancel</button>
+              <button class="button" @click="close">Cancel</button>
             </footer>
           </form>
         </div>

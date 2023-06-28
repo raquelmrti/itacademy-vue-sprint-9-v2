@@ -1,10 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onUnmounted } from "vue";
 import router from "@/router/index";
+import ErrorMessage from "@/components/ErrorMessage.vue";
 
 // stores
+import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/userStore.js";
 const userStore = useUserStore();
+const { isLoading, error } = storeToRefs(userStore);
 
 // data
 const email = ref("testemail@gmail.com");
@@ -13,11 +16,14 @@ const password = ref("testpassword1234");
 // methods
 const handleSubmit = async () => {
   const user = await userStore.signInUser(email.value, password.value);
-  // TODO: handle login errors
   if (user) {
     router.push("/home");
   }
 };
+
+onUnmounted(() => {
+  error.value = "";
+});
 </script>
 
 <template>
@@ -50,9 +56,14 @@ const handleSubmit = async () => {
         </div>
       </div>
 
+      <ErrorMessage v-if="error" />
+
       <div class="field">
         <div class="control">
-          <button type="submit" class="button is-primary is-fullwidth mt-5">
+          <button
+            type="submit"
+            :class="['button is-primary is-fullwidth mt-5', { 'is-loading': isLoading }]"
+          >
             Sign in
           </button>
         </div>

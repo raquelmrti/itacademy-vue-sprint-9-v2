@@ -22,6 +22,7 @@ const props = defineProps({
 
 .date {
   font-size: 0.8em;
+  color: #b3acac;
 }
 
 .entry-card-body {
