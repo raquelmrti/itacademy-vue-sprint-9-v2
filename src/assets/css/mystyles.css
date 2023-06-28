@@ -4,7 +4,7 @@
 
 body,
 #app {
-  height: 100vh !important; }
+  min-height: 75vh; }
 
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */

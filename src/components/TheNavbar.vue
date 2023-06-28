@@ -19,15 +19,20 @@ const toggleShowMenu = () => (showMenu.value = !showMenu.value);
 const onLogout = async () => {
   const logoutResult = await userStore.logoutUser();
   if (logoutResult === "success") {
-    console.log("AHHH");
     toggleShowMenu();
     router.push("/");
   }
 };
 
-watch(userData, () => {
-  icon.value = "url(" + userStore.userData.icon + ")";
-});
+watch(
+  userData,
+  () => {
+    icon.value = "url(" + userStore.userData.icon + ")";
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
@@ -37,7 +42,7 @@ watch(userData, () => {
         <!-- TODO: Logo -->
         <div class="logo">TinyJournal</div>
 
-        <div class="icon"></div>
+        <div class="userIcon"></div>
         <div class="username" @click="toggleShowMenu">
           {{ userData.username }}
         </div>
@@ -67,7 +72,7 @@ watch(userData, () => {
 </template>
 
 <style scoped>
-.icon {
+.userIcon {
   width: 40px;
   height: 40px;
   border-radius: 100%;
@@ -133,7 +138,7 @@ span:hover {
 }
 
 @media screen and (max-width: 530px) {
-  .icon {
+  .userIcon {
     margin-right: 1em;
   }
   .username {

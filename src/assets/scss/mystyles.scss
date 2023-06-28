@@ -30,7 +30,7 @@ $modal-background: #4b2d32a6 !important;
 
 body,
 #app {
-  height: 100vh !important;
+  min-height: 75vh;
 }
 
 @import 'node_modules/bulma/bulma.sass';

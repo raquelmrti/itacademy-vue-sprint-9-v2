@@ -6,7 +6,7 @@
         <a href="https://github.com/raquelmrti" class="has-text-primary"
           >Raquel Martínez</a
         >
-        • IT Academy
+        • IT Academy 2023
       </p>
     </div>
   </footer>

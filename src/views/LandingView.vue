@@ -14,8 +14,7 @@ import { RouterLink } from "vue-router";
           occurrences. With its simple interface, TinyJournal allows you to start writing
           in no time!
         </p>
-        <!-- TODO: change link so it takes authenticated user to home -->
-        <router-link :to="{ name: 'sign-in' }" class="button is-primary mt-4"
+        <router-link :to="{ name: 'sign-up' }" class="button is-primary mt-4"
           >Get started</router-link
         >
       </div>

@@ -58,24 +58,22 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     async getCurrentUser() {
-      try {
-        const user = await new Promise((resolve, reject) => {
-          const unsubscribe = onAuthStateChanged(
-            auth,
-            (user) => {
-              if (user) {
-                this.updateUserData(user)
-              }
-              resolve(user)
-            },
-            (e) => reject(e)
-          )
-          unsubscribe()
-        })
-        return user
-      } catch (error) {
-        console.error(error)
-      }
+      const user = await new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+          auth,
+          (user) => {
+            if (user) {
+              this.updateUserData(user)
+            } else {
+              this.userData = {}
+            }
+            resolve(user)
+          },
+          (e) => reject(e)
+        )
+        unsubscribe()
+      })
+      return user
     }
   }
 })

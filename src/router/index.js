@@ -4,6 +4,20 @@ import SignUpView from '@/views/SignUpView.vue'
 import SignInView from '@/views/SignInView.vue'
 import HomeView from '@/views/HomeView.vue'
 import EntryFullView from '@/views/EntryFullView.vue'
+import { useUserStore } from '@/stores/userStore'
+
+const requireAuth = async (to, from, next) => {
+  const userStore = useUserStore()
+  const user = await userStore.getCurrentUser()
+
+  user ? next() : next('/sign-in')
+}
+
+const redirectAuthUser = async (to, from, next) => {
+  const userStore = useUserStore()
+  const user = await userStore.getCurrentUser()
+  user ? next('/home') : next()
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,22 +30,26 @@ const router = createRouter({
     {
       path: '/sign-up',
       name: 'sign-up',
-      component: SignUpView
+      component: SignUpView,
+      beforeEnter: redirectAuthUser
     },
     {
       path: '/sign-in',
       name: 'sign-in',
-      component: SignInView
+      component: SignInView,
+      beforeEnter: redirectAuthUser
     },
     {
       path: '/home',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      beforeEnter: requireAuth
     },
     {
       path: '/entries/:id',
       name: 'entry',
-      component: EntryFullView
+      component: EntryFullView,
+      beforeEnter: requireAuth
     }
   ]
 })
