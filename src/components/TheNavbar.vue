@@ -24,20 +24,15 @@ const onLogout = async () => {
   }
 };
 
-onMounted(() => {
-  document.addEventListener("click", (e) => {
-    console.log(e.target);
-  });
-}),
-  watch(
-    userData,
-    () => {
-      icon.value = "url(" + userStore.userData.icon + ")";
-    },
-    {
-      immediate: true,
-    }
-  );
+watch(
+  userData,
+  () => {
+    icon.value = "url(" + userStore.userData.icon + ")";
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
@@ -46,7 +41,7 @@ onMounted(() => {
       <div class="visible">
         <div class="logo">
           <RouterLink :to="{ name: 'home' }">
-            <img src="public\img\logo.png" alt="TinyJournal logo" class="logo-img" />
+            <img src="@/../public/img/logo.png" alt="TinyJournal logo" class="logo-img" />
           </RouterLink>
         </div>
 

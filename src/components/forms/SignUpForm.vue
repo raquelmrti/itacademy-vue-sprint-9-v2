@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onUnmounted } from "vue";
-import router from "@/router/index";
 import { fetchUnsplashImage } from "@/assets/js/unsplashService.js";
-import ErrorMessage from "@/components/ErrorMessage.vue";
+import AuthErrorMessage from "@/components/AuthErrorMessage.vue";
+import WelcomeModal from "@/components/WelcomeModal.vue";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
@@ -16,6 +16,7 @@ const username = ref("Test name");
 const email = ref("testemail@gmail.com");
 const password = ref("testpassword1234");
 const icon = ref("");
+const showWelcomeModal = ref(false);
 
 // methods
 const getUserIconImg = async () => {
@@ -32,9 +33,7 @@ const handleSubmit = async () => {
   );
 
   if (user) {
-    router.push("/home");
-    // TODO: Make pop up
-    alert("Welcome!!!!!!!!!!!");
+    showWelcomeModal.value = true;
   }
 };
 
@@ -44,7 +43,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- TODO: Validations -->
   <form class="box p-6" @submit.prevent="handleSubmit">
     <div class="field">
       <label class="label">Username</label>
@@ -83,7 +81,7 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <ErrorMessage v-if="error" />
+    <AuthErrorMessage v-if="error" />
 
     <div class="field">
       <div class="control">
@@ -106,4 +104,7 @@ onUnmounted(() => {
       >
     </span>
   </form>
+  <Teleport to="body">
+    <WelcomeModal :img="icon" v-if="showWelcomeModal" />
+  </Teleport>
 </template>

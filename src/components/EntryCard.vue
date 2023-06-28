@@ -1,6 +1,4 @@
 <script setup>
-import { ref, computed, toRef, watch } from "vue";
-
 const props = defineProps({
   entry: Object,
 });

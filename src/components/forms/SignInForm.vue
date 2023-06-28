@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onUnmounted } from "vue";
 import router from "@/router/index";
-import ErrorMessage from "@/components/ErrorMessage.vue";
+import AuthErrorMessage from "@/components/AuthErrorMessage.vue";
 
 // stores
 import { storeToRefs } from "pinia";
@@ -27,7 +27,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- TODO: validations -->
   <div>
     <form class="box p-6" @submit.prevent="handleSubmit">
       <div class="field">
@@ -56,7 +55,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <ErrorMessage v-if="error" />
+      <AuthErrorMessage v-if="error" />
 
       <div class="field">
         <div class="control">

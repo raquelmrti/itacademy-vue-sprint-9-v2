@@ -55,7 +55,7 @@ export const useUserStore = defineStore('userStore', {
     async logoutUser() {
       try {
         await signOut(auth)
-        this.userData = null
+        this.userData = {}
         return 'success'
       } catch (error) {
         console.error('Error logging out the user: ', error)

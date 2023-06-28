@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { PhPencilSimple, PhX, PhTrash, PhCheck } from "@phosphor-icons/vue";
 import router from "@/router/index";
 
@@ -25,7 +25,6 @@ const dateModifiedParsed = ref(props.entry.date_modified_parsed);
 const entryWasModified = computed(() => {
   return dateModified.value - dateCreated.value === 0 ? false : true;
 });
-
 // methods
 
 const toggleEditMode = () => {
@@ -53,6 +52,22 @@ const onDelete = () => {
     router.push("/home");
   }
 };
+
+const saveButton = ref(null);
+const isModified = ref(false);
+
+// using one watcher for more than one property
+watch([headline, body], ([newHeadline, newBody]) => {
+  if (newHeadline !== props.entry.headline || newBody !== props.entry.body) {
+    if (newHeadline.trim() === "" || newBody.trim() === "") {
+      isModified.value = false;
+    } else {
+      isModified.value = true;
+    }
+  } else {
+    isModified.value = false;
+  }
+});
 </script>
 
 <template>
@@ -80,7 +95,12 @@ const onDelete = () => {
         </button>
 
         <template v-else>
-          <button class="button is-success is-fullwidth" @click="onSave">
+          <button
+            class="button is-success is-fullwidth"
+            ref="saveButton"
+            :disabled="!isModified"
+            @click="onSave"
+          >
             <span class="icon mr-2">
               <ph-check :size="20" weight="bold" />
             </span>
@@ -111,6 +131,9 @@ const onDelete = () => {
   padding: 3em;
 }
 
+.entry-card-body {
+  line-break: anywhere;
+}
 .date {
   font-size: 0.8em;
   color: #b3acac;
