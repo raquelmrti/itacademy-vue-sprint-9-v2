@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
-import EntryCard from "@/components/EntryCard.vue";
-import EntryForm from "@/components/forms/EntryForm.vue";
 import { RouterLink } from "vue-router";
 import { PhPenNib } from "@phosphor-icons/vue";
+import EntryCard from "@/components/EntryCard.vue";
+import EntryForm from "@/components/forms/EntryForm.vue";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
@@ -33,19 +33,24 @@ const numOfEntriesText = computed(() => {
 <template>
   <template v-if="userData">
     <div class="column is-7 mx-auto">
-      <h1 class="title">{{ userData.username }}'s journal</h1>
+      <header>
+        <h1 class="title mb-5">{{ userData.username }}'s journal</h1>
+      </header>
 
       <template v-if="isLoading">
         <div>Loading...</div>
       </template>
 
       <template v-else-if="userHasEntries">
-        <span class="is-block mb-4">{{ numOfEntriesText }}</span>
-        <div class="mb-5" v-for="entry in sortedEntries" :key="entry.entry_id">
-          <router-link :to="{ name: 'entry', params: { id: entry.entry_id } }">
-            <EntryCard :entry="entry" />
-          </router-link>
-        </div>
+        <main>
+          <span class="is-block mb-4">{{ numOfEntriesText }}</span>
+          <!-- TODO: add pagination? -->
+          <div class="mb-5" v-for="entry in sortedEntries" :key="entry.entry_id">
+            <router-link :to="{ name: 'entry', params: { id: entry.entry_id } }">
+              <EntryCard :entry="entry" />
+            </router-link>
+          </div>
+        </main>
       </template>
 
       <template v-else>

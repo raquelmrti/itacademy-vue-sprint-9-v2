@@ -8,14 +8,17 @@ import TheFooter from "@/components/TheFooter.vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 
+// stores
 import { useUserStore } from "@/stores/userStore.js";
 const userStore = useUserStore();
 
 import { useEntryStore } from "@/stores/entryStore.js";
 const entryStore = useEntryStore();
 
+// data
 const pageNeedsNav = ref(false);
 
+// watcher
 watch(route, (newRoute) => {
   if (newRoute.name === "entry" || newRoute.name === "home") {
     pageNeedsNav.value = true;
@@ -24,7 +27,7 @@ watch(route, (newRoute) => {
   }
 });
 
-// Update user data whenever auth state changes
+// update user data whenever auth state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     userStore.updateUserData(user);

@@ -1,14 +1,14 @@
 <script setup>
 import { useUserStore } from "@/stores/userStore.js";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 const router = useRouter();
 import { PhCaretDown, PhCaretUp } from "@phosphor-icons/vue";
 
 // stores
-import { storeToRefs } from "pinia";
 const userStore = useUserStore();
 const { userData } = storeToRefs(userStore);
+import { storeToRefs } from "pinia";
 
 // data
 const icon = ref("");

@@ -1,12 +1,15 @@
 <script setup>
 import { ref, watch, toRef } from "vue";
 
+// stores
 import { useUserStore } from "@/stores/userStore.js";
 const userStore = useUserStore();
 const authError = toRef(userStore, "error");
 
+// data
 const errorText = ref("");
 
+// watcher
 watch(
   authError,
   (newError) => {

@@ -12,9 +12,9 @@ const { isLoading, error } = storeToRefs(userStore);
 const { registerUser } = userStore;
 
 // data
-const username = ref("Test name");
-const email = ref("testemail@gmail.com");
-const password = ref("testpassword1234");
+const username = ref("");
+const email = ref("");
+const password = ref("");
 const icon = ref("");
 const showWelcomeModal = ref(false);
 

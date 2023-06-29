@@ -24,6 +24,7 @@ const resetForm = () => {
 const onSubmit = () => {
   const date = new Date();
   const parsedDate = date.toLocaleString();
+  // FIXME: <br> tags show when editing entry
   const parsedBody = entryBody.value.replace(/\r\n|\r|\n/g, "<br>");
   entryStore.createEntry(entryHeadline.value, parsedBody, date, parsedDate);
   resetForm();

@@ -1,14 +1,15 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 import { RouterLink } from "vue-router";
-import { ref, onMounted, onUnmounted } from "vue";
-import { storeToRefs } from "pinia";
-import EntryFull from "@/components/EntryFull.vue";
 import { PhArrowLeft } from "@phosphor-icons/vue";
+import EntryFull from "@/components/EntryFull.vue";
 
 // stores
 import { useEntryStore } from "@/stores/entryStore.js";
+import { storeToRefs } from "pinia";
+
 const entryStore = useEntryStore();
 const { error } = storeToRefs(entryStore);
 
@@ -34,20 +35,23 @@ onUnmounted(() => {
           <ph-arrow-left :size="30" />
         </router-link>
       </span>
-      <template v-if="error">
-        <div>
-          {{ error.message }}
-        </div>
-      </template>
-      <template v-if="entry">
-        <EntryFull :entry="entry" :entryId="entryId" />
-      </template>
+      <main>
+        <template v-if="error">
+          <div>
+            {{ error.message }}
+          </div>
+        </template>
+
+        <template v-if="entry">
+          <EntryFull :entry="entry" :entryId="entryId" />
+        </template>
+      </main>
     </div>
   </div>
 </template>
 
 <style scoped>
 a {
-  color: #000;
+  color: #363636;
 }
 </style>

@@ -14,6 +14,9 @@ const props = defineProps({
 });
 
 const isEditing = ref(false);
+const isEdited = ref(false);
+const saveButton = ref(null);
+
 const entryId = ref(props.entryId);
 const headline = ref(props.entry.headline);
 const body = ref(props.entry.body);
@@ -25,13 +28,11 @@ const dateModifiedParsed = ref(props.entry.date_modified_parsed);
 const entryWasModified = computed(() => {
   return dateModified.value - dateCreated.value === 0 ? false : true;
 });
-// methods
 
+// methods
 const toggleEditMode = () => {
   isEditing.value = !isEditing.value;
 };
-
-// TODO: if user didn't modify anything, don't update
 const onSave = () => {
   isEditing.value = false;
   const date = new Date();
@@ -53,77 +54,80 @@ const onDelete = () => {
   }
 };
 
-const saveButton = ref(null);
-const isModified = ref(false);
+// watcher
 
-// using one watcher for more than one property
 watch([headline, body], ([newHeadline, newBody]) => {
   if (newHeadline !== props.entry.headline || newBody !== props.entry.body) {
     if (newHeadline.trim() === "" || newBody.trim() === "") {
-      isModified.value = false;
+      isEdited.value = false;
     } else {
-      isModified.value = true;
+      isEdited.value = true;
     }
   } else {
-    isModified.value = false;
+    isEdited.value = false;
   }
 });
 </script>
 
 <template>
-  <div class="entry-card box">
+  <section class="entry-card box">
     <div class="content">
-      <h1 class="title mb-2" v-if="!isEditing">{{ headline }}</h1>
-      <input class="input edit-title" v-else type="text" v-model="headline" />
+      <header>
+        <h1 class="title mb-2" v-if="!isEditing">{{ headline }}</h1>
+        <input class="input edit-title" v-else type="text" v-model="headline" />
 
-      <span class="date is-block mb-1"
-        >Written on {{ dateCreatedParsed }} by {{ props.entry.author_username }}</span
-      >
-      <span class="date is-block mb-4" v-if="entryWasModified"
-        >Last modified on {{ dateModifiedParsed }}</span
-      >
+        <span class="date is-block mb-1"
+          >Written on {{ dateCreatedParsed }} by {{ props.entry.author_username }}</span
+        >
+        <span class="date is-block mb-4" v-if="entryWasModified"
+          >Last modified on {{ dateModifiedParsed }}</span
+        >
+      </header>
+      <main>
+        <p v-html="body" class="entry-card-body" v-if="!isEditing"></p>
+        <textarea class="textarea edit-body" v-else v-model="body"></textarea>
+      </main>
 
-      <p v-html="body" class="entry-card-body" v-if="!isEditing"></p>
-      <textarea class="textarea edit-body" v-else v-model="body"></textarea>
-
-      <div class="buttons is-justify-content-flex-end">
-        <button class="button is-brown-light" v-if="!isEditing" @click="toggleEditMode">
-          <span class="icon mr-2">
-            <ph-pencil-simple :size="20" />
-          </span>
-          Edit
-        </button>
-
-        <template v-else>
-          <button
-            class="button is-success is-fullwidth"
-            ref="saveButton"
-            :disabled="!isModified"
-            @click="onSave"
-          >
+      <footer>
+        <div class="buttons is-justify-content-flex-end">
+          <button class="button is-brown-light" v-if="!isEditing" @click="toggleEditMode">
             <span class="icon mr-2">
-              <ph-check :size="20" weight="bold" />
+              <ph-pencil-simple :size="20" />
             </span>
-            Save
+            Edit
           </button>
 
-          <button class="button is-brown-light is-fullwidth" @click="onCancel">
-            <span class="icon mr-2">
-              <ph-x :size="20" weight="bold" />
-            </span>
-            Cancel
-          </button>
+          <template v-else>
+            <button
+              class="button is-success is-fullwidth"
+              ref="saveButton"
+              :disabled="!isEdited"
+              @click="onSave"
+            >
+              <span class="icon mr-2">
+                <ph-check :size="20" weight="bold" />
+              </span>
+              Save
+            </button>
 
-          <button class="button is-brown-light is-fullwidth" @click="onDelete">
-            <span class="icon mr-2" weight="fill">
-              <ph-trash :size="20" />
-            </span>
-            Delete entry
-          </button>
-        </template>
-      </div>
+            <button class="button is-brown-light is-fullwidth" @click="onCancel">
+              <span class="icon mr-2">
+                <ph-x :size="20" weight="bold" />
+              </span>
+              Cancel
+            </button>
+
+            <button class="button is-brown-light is-fullwidth" @click="onDelete">
+              <span class="icon mr-2" weight="fill">
+                <ph-trash :size="20" />
+              </span>
+              Delete entry
+            </button>
+          </template>
+        </div>
+      </footer>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -134,6 +138,7 @@ watch([headline, body], ([newHeadline, newBody]) => {
 .entry-card-body {
   line-break: anywhere;
 }
+
 .date {
   font-size: 0.8em;
   color: #b3acac;
@@ -144,6 +149,7 @@ watch([headline, body], ([newHeadline, newBody]) => {
   color: gray;
   border: none;
 }
+
 .edit-title {
   height: 46px;
   color: #363636;

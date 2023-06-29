@@ -1,8 +1,8 @@
-# Front End Development with Vue.js - IT Academy
+# 📖 TinyJournal 📖
 
-## Sprint 9 - Final Project
+A simple and easy-to-use online journal built with Vue and Bulma. Users can sign up, log in, write journal entries, edit them, and delete them. It uses Firebase for the user authentication and Firestore to store the entries. It also uses the Unsplash API to fetch an image for the users' icons.
 
-For this last Sprint I have to make a Vue app with a theme of my choice. There's no exercises, but there are requirements:
+This is my final project for IT Academy's Vue course, which needed to meet the following requirements:
 
 - Create at least 5 components.
 
@@ -14,7 +14,7 @@ For this last Sprint I have to make a Vue app with a theme of my choice. There's
 
 - At least one call to an external API.
 
-- Implement "login"/registration, ideally with Firebase, although you can do it with localStorage.
+- Implement "login"/registration, ideally with Firebase, although it can be done with localStorage.
 
 - Protect the routes, either so that there is an admin user who can only see a part of it, or because there are normal and premium users.
 

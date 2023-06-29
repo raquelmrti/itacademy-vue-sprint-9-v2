@@ -46,7 +46,6 @@ export const useUserStore = defineStore('userStore', {
         this.error = ''
         return user
       } catch (error) {
-        console.log(error.code)
         this.error = error
       } finally {
         this.isLoading = false
