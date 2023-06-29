@@ -54,7 +54,7 @@ const numOfEntriesText = computed(() => {
       </template>
 
       <template v-else>
-        <img src="public\img\empty.png" class="no-entries-img" />
+        <img src="/public/img/empty.png" class="no-entries-img" />
         <p>Your journal has no entries yet. Try writing your first one!</p>
       </template>
 

@@ -41,7 +41,7 @@ watch(
       <div class="visible">
         <div class="logo">
           <RouterLink :to="{ name: 'home' }">
-            <img src="@/../public/img/logo.png" alt="TinyJournal logo" class="logo-img" />
+            <img src="/public/img/logo.png" alt="TinyJournal logo" class="logo-img" />
           </RouterLink>
         </div>
 

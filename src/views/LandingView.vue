@@ -6,7 +6,7 @@ import { RouterLink } from "vue-router";
   <div class="container has-text-centered px-3">
     <div class="columns is-align-items-center">
       <div class="column">
-        <img class="landing-img" src="public\img\woman-writing.svg" alt="" />
+        <img class="landing-img" src="/public/img/woman-writing.svg" alt="" />
       </div>
 
       <div class="column landing-text">
