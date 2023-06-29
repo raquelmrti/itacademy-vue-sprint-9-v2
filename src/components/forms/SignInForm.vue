@@ -10,8 +10,8 @@ const userStore = useUserStore();
 const { isLoading, error } = storeToRefs(userStore);
 
 // data
-const email = ref("testemail@gmail.com");
-const password = ref("testpassword1234");
+const email = ref("");
+const password = ref("");
 
 // methods
 const handleSubmit = async () => {
