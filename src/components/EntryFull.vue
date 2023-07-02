@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { PhPencilSimple, PhX, PhTrash, PhCheck } from "@phosphor-icons/vue";
-import router from "@/router/index";
+import ModalConfirmDeleteEntry from "./ModalConfirmDeleteEntry.vue";
 
 // stores
 import { useEntryStore } from "@/stores/entryStore.js";
@@ -16,6 +16,7 @@ const props = defineProps({
 const isEditing = ref(false);
 const isEdited = ref(false);
 const saveButton = ref(null);
+const showModalConfirmDeleteEntry = ref(false);
 
 const entryId = ref(props.entryId);
 const headline = ref(props.entry.headline);
@@ -47,15 +48,10 @@ const onCancel = () => {
 };
 
 const onDelete = () => {
-  const deleteConfirm = confirm("Are you sure you want to delete this entry?");
-  if (deleteConfirm) {
-    entryStore.deleteEntry(entryId.value);
-    router.push("/home");
-  }
+  showModalConfirmDeleteEntry.value = true;
 };
 
 // watcher
-
 watch([headline, body], ([newHeadline, newBody]) => {
   if (newHeadline !== props.entry.headline || newBody !== props.entry.body) {
     if (newHeadline.trim() === "" || newBody.trim() === "") {
@@ -73,23 +69,23 @@ watch([headline, body], ([newHeadline, newBody]) => {
   <section class="entry-card box">
     <div class="content">
       <header>
-        <h1 class="title mb-2" v-if="!isEditing">{{ headline }}</h1>
+        <h1 class="title mb-4" v-if="!isEditing">{{ headline }}</h1>
         <input class="input edit-title" v-else type="text" v-model="headline" />
 
-        <span class="date is-block mb-1"
+        <span class="date is-block"
           >Written on {{ dateCreatedParsed }} by {{ props.entry.author_username }}</span
         >
-        <span class="date is-block mb-4" v-if="entryWasModified"
+        <span class="date is-block" v-if="entryWasModified"
           >Last modified on {{ dateModifiedParsed }}</span
         >
       </header>
-      <main>
+      <main class="mt-5">
         <p v-html="body" class="entry-card-body" v-if="!isEditing"></p>
         <textarea class="textarea edit-body" v-else v-model="body"></textarea>
       </main>
 
       <footer>
-        <div class="buttons is-justify-content-flex-end">
+        <div class="buttons is-justify-content-flex-end mt-5">
           <button class="button is-brown-light" v-if="!isEditing" @click="toggleEditMode">
             <span class="icon mr-2">
               <ph-pencil-simple :size="20" />
@@ -98,36 +94,45 @@ watch([headline, body], ([newHeadline, newBody]) => {
           </button>
 
           <template v-else>
-            <button
-              class="button is-success is-fullwidth"
-              ref="saveButton"
-              :disabled="!isEdited"
-              @click="onSave"
-            >
-              <span class="icon mr-2">
-                <ph-check :size="20" weight="bold" />
-              </span>
-              Save
-            </button>
+            <div class="button-group">
+              <button
+                class="button is-save is-success"
+                ref="saveButton"
+                :disabled="!isEdited"
+                @click="onSave"
+              >
+                <span class="icon mr-2">
+                  <ph-check :size="20" weight="bold" />
+                </span>
+                Save
+              </button>
 
-            <button class="button is-brown-light is-fullwidth" @click="onCancel">
-              <span class="icon mr-2">
-                <ph-x :size="20" weight="bold" />
-              </span>
-              Cancel
-            </button>
+              <button class="button is-cancel is-brown-light" @click="onCancel">
+                <span class="icon mr-2">
+                  <ph-x :size="20" weight="bold" />
+                </span>
+                Cancel
+              </button>
 
-            <button class="button is-brown-light is-fullwidth" @click="onDelete">
-              <span class="icon mr-2" weight="fill">
-                <ph-trash :size="20" />
-              </span>
-              Delete entry
-            </button>
+              <button class="button is-delete is-danger" @click="onDelete">
+                <span class="icon mr-2" weight="fill">
+                  <ph-trash :size="20" />
+                </span>
+                Delete entry
+              </button>
+            </div>
           </template>
         </div>
       </footer>
     </div>
   </section>
+  <Teleport to="body">
+    <ModalConfirmDeleteEntry
+      v-if="showModalConfirmDeleteEntry"
+      :entryId="entryId"
+      @closeModal="showModalConfirmDeleteEntry = false"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
@@ -163,6 +168,38 @@ watch([headline, body], ([newHeadline, newBody]) => {
   height: 400px;
   color: #757763;
   margin-bottom: 1em;
+}
+
+.button-group,
+.button-group > * {
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .button-group {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0.5em;
+  }
+  /*
+  .is-save,
+  .is-cancel,
+  .is-delete {
+    width: initial;
+  } */
+
+  .is-delete {
+    grid-area: 1 / 1 / 2 / 5;
+  }
+
+  .is-cancel {
+    grid-area: 1 / 7 / 2 / 9;
+  }
+
+  .is-save {
+    grid-area: 1 / 9 / 2 / 11;
+  }
 }
 
 /* ===== Scrollbar CSS ===== */

@@ -2,7 +2,7 @@
 import { ref, onUnmounted } from "vue";
 import { fetchUnsplashImage } from "@/assets/js/unsplashService.js";
 import AuthErrorMessage from "@/components/AuthErrorMessage.vue";
-import WelcomeModal from "@/components/WelcomeModal.vue";
+import ModalWelcome from "@/components/ModalWelcome.vue";
 
 // stores
 import { useUserStore } from "@/stores/userStore.js";
@@ -16,7 +16,7 @@ const username = ref("");
 const email = ref("");
 const password = ref("");
 const icon = ref("");
-const showWelcomeModal = ref(false);
+const showModalWelcome = ref(false);
 
 // methods
 const getUserIconImg = async () => {
@@ -33,7 +33,7 @@ const handleSubmit = async () => {
   );
 
   if (user) {
-    showWelcomeModal.value = true;
+    showModalWelcome.value = true;
   }
 };
 
@@ -105,6 +105,6 @@ onUnmounted(() => {
     </span>
   </form>
   <Teleport to="body">
-    <WelcomeModal :img="icon" v-if="showWelcomeModal" />
+    <ModalWelcome :img="icon" v-if="showModalWelcome" />
   </Teleport>
 </template>

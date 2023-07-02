@@ -3,8 +3,8 @@ import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, watch } from "vue";
 import { RouterView } from "vue-router";
-import TheNavbar from "@/components/TheNavbar.vue";
-import TheFooter from "@/components/TheFooter.vue";
+import TheNavbar from "@/components/layout/TheNavbar.vue";
+import TheFooter from "@/components/layout/TheFooter.vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 
